@@ -1,0 +1,102 @@
+<h3 class="text-center title m-0">{{stateData?.pickUpLocation}}</h3>
+<h5 class="text-center title" *ngIf="stateData">{{stateData?.pickUpDate | date: 'MMM dd'}}, {{stateData?.pickUpTime}} - {{stateData?.dropOffDate | date: 'MMM dd'}}, {{stateData?.dropOffTime}}</h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input type="text" matInput [(ngModel)]="searchText">
+              </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label id="sort-radio-group-label"><strong>Sort</strong></label><br>
+            <mat-radio-group aria-labelledby="soart-radio-group-label" class="sort-radio-group" [(ngModel)]="sortOption"
+                (change)="sortChange()">
+                <mat-radio-button value="1" class="sort-radio-button" color="primary">
+                    Price: lowest
+                </mat-radio-button>
+                <mat-radio-button value="2" class="sort-radio-button" color="primary">
+                    Price: highest
+                </mat-radio-button>
+                <mat-radio-button value="3" class="sort-radio-button" color="primary">
+                    Rental company: A to Z
+                </mat-radio-button>
+                <mat-radio-button value="4" class="sort-radio-button" color="primary">
+                    Rental company: Z to A
+                </mat-radio-button>
+                <mat-radio-button value="5" class="sort-radio-button" color="primary">
+                    Car Type: A to Z
+                </mat-radio-button>
+                <mat-radio-button value="6" class="sort-radio-button" color="primary">
+                    Car Type: Z to A
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-xl-6 col-xs-12" *ngFor="let car of carDetails | filter:searchText">
+            <div class="row">
+                <div class="col">
+                    <img src="/assets/images/{{car.image}}.jpg">
+                </div>
+                <div class="col">
+                    <h4>
+                        {{car.type}}
+                    </h4>
+                    <h6>
+                        {{car.subType}}
+                    </h6>
+                    <div class="row">
+                        <div class="col">
+                            <span class="mr-3">
+                                <mat-icon>people</mat-icon>
+                                <strong class="ml-1">{{car.passengers}}</strong>
+                            </span>
+                            <span class="mr-3">
+                                <mat-icon>local_mall</mat-icon><strong class="ml-1">{{car.class}}</strong>
+                            </span>
+                            <span class="mr-3">
+                                <mat-icon> network_check </mat-icon>
+                                <strong class="ml-1">{{car.miles}}</strong>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" *ngIf="car.cancellation">
+                    <h6>
+                        <span class="active">Free Cancellation</span> Until {{car.cancellationDate}}
+                    </h6>
+                </div>
+                <div class="col" *ngIf="!car.cancellation">
+                    <h6>
+                        <span>Cancellation fees may apply</span>
+                    </h6>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <h6>
+                        <strong class="active">{{car.pricePerDay | currency: 'USD'}}</strong> avg/day
+                    </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h6>
+                        Total({{diffDays}} days): <strong>{{car.pricePerDay * diffDays}}</strong>
+                    </h6>
+                </div>
+            </div>
+            <hr class="shadow">
+        </div>
+        <hr>
+    </div>
+</div>
